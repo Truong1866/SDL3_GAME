@@ -7,22 +7,22 @@
 using namespace std;
 using namespace FileSystem;
 
-#define height 1600;
-#define width 800;
-#define logW 640;
-#define logH 320;
+#define dWidth 1600
+#define dHeight 800
+#define dLogW 640
+#define dLogH 320
 
 int main(int argc, char* argv[]) {
     SDL_State state;
-
+    state.setLogSize(dLogW, dLogH);
+    state.setResolution(dWidth, dHeight);
+    state.init();
 
     // Configure presentation
-    int logW=640;
-    int logH=320;
-    SDL_SetRenderLogicalPresentation(state.renderer, logW, logH, SDL_LOGICAL_PRESENTATION_STRETCH);
+    SDL_SetRenderLogicalPresentation(state.getRenderer(), state.getLogSize().width , state.getLogSize().height, SDL_LOGICAL_PRESENTATION_STRETCH);
 
     // Load file assets
-    SDL_Texture* texture = IMG_LoadTexture(state.renderer, GetPath("data/texture/idle.png").c_str());
+    SDL_Texture* texture = IMG_LoadTexture(state.getRenderer(), GetPath("data/texture/idle.png").c_str());
     SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_NEAREST);
 
     // Start main game loop
@@ -40,15 +40,14 @@ int main(int argc, char* argv[]) {
                     break;
 
                 case SDL_EVENT_WINDOW_RESIZED:
-                    state.width = e.window.data1;
-                    state.height = e.window.data2;
+                    state.setResolution(e.window.data1, e.window.data2);
                     break;
             }
         }
 
         // Drawing command
-        SDL_SetRenderDrawColor(state.renderer, 20, 10, 30, 255);
-        SDL_RenderClear(state.renderer);
+        SDL_SetRenderDrawColor(state.getRenderer(), 20, 10, 30, 255);
+        SDL_RenderClear(state.getRenderer());
 
         SDL_FRect src{
         .x = 0,
@@ -62,15 +61,15 @@ int main(int argc, char* argv[]) {
         .w = 32,
         .h = 32,};
 
-        SDL_RenderTexture(state.renderer, texture, &src, &dst);
+        SDL_RenderTexture(state.getRenderer(), texture, &src, &dst);
 
         // Swap buffer draw
-        SDL_RenderPresent(state.renderer);
+        SDL_RenderPresent(state.getRenderer());
     }
 
 
     // End game loop
     SDL_DestroyTexture(texture);
-    cleanup(state);
+    state.cleanup();
     return 0;
 }

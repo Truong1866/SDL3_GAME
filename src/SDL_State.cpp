@@ -69,8 +69,8 @@ resolution SDL_State::getResolution() {
 
 resolution SDL_State::getLogSize() {
     resolution res;
-    res.width = width;
-    res.height = height;
+    res.width = logW;
+    res.height = logH;
     return res;
 }
 
