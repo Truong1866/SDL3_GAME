@@ -19,12 +19,13 @@ private: SDL_Window *window;
          int width, height, logW, logH;
 
 public: SDL_State();
+        ~SDL_State();
         bool init();
         void cleanup();
         void setResolution(int W, int H);
         void setLogSize(int W, int H);
         SDL_Window* getWindow();
-        SDL_Renderer* getRenderer();
+        SDL_Renderer &getRenderer();
         resolution getResolution();
         resolution getLogSize();
 };

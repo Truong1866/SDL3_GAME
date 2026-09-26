@@ -1,7 +1,7 @@
 //
 // Created by truong on 16/09/2026.
 //
-#include "SDL_State.h"
+#include "Core/SDL_State.h"
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 
@@ -9,6 +9,10 @@ SDL_State::SDL_State() {
     window = nullptr;
     renderer = nullptr;
     width = height = logH = logW = 0;
+}
+
+SDL_State::~SDL_State() {
+    cleanup();
 }
 
 bool SDL_State::init() {
@@ -37,17 +41,24 @@ bool SDL_State::init() {
 }
 
 void SDL_State::cleanup() {
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
+    if (renderer) {
+        SDL_DestroyRenderer(renderer);
+        renderer = nullptr;
+    }
+
+    if (window) {
+        SDL_DestroyWindow(window);
+        window = nullptr;
+    }
     SDL_Quit();
 }
 
-void  SDL_State::setResolution(int W, int H) {
+void  SDL_State::setResolution(const int W,const int H) {
     width = W;
     height = H;
 }
 
-void SDL_State::setLogSize(int W, int H) {
+void SDL_State::setLogSize(const int W,const int H) {
     logW = W;
     logH = H;
 }
@@ -56,8 +67,8 @@ SDL_Window* SDL_State::getWindow() {
     return window;
 }
 
-SDL_Renderer* SDL_State::getRenderer() {
-    return renderer;
+SDL_Renderer &SDL_State::getRenderer() {
+    return *renderer;
 }
 
 resolution SDL_State::getResolution() {
