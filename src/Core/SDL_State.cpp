@@ -63,11 +63,11 @@ void SDL_State::setLogSize(const int W,const int H) {
     logH = H;
 }
 
-SDL_Window* SDL_State::getWindow() {
+SDL_Window* SDL_State::getWindow() const {
     return window;
 }
 
-SDL_Renderer &SDL_State::getRenderer() {
+SDL_Renderer &SDL_State::getRenderer() const {
     return *renderer;
 }
 

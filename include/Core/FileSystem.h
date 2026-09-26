@@ -22,7 +22,7 @@ namespace FileSystem {
     }
 
     // Hàm lấy đường dẫn data
-    inline std::string GetPath(const std::string& relativePath) {
+    inline std::string getPath(const std::string& relativePath) {
         return GetBasePath() + relativePath;
     }
     

@@ -9,6 +9,7 @@
 #include "Systems/PlayerStateSystem.h"
 #include "Systems/RenderSystem.h"
 #include "Core/PlayerFactory.h"
+#include "Core/FileSystem.h"
 
 void Game::init() {
     state.setResolution(800, 600);
@@ -18,7 +19,7 @@ void Game::init() {
     systemManager.AddSystem<PhysicalSystem>();
     systemManager.AddSystem<RenderSystem>();
     systemManager.AddSystem<PlayerStateSystem>();
-    assetManager.loadTexture("Player", "data/texture/idle.png", &state.getRenderer());
+    assetManager.loadTexture("Player", FileSystem::getPath("data/texture/idle.png"), &state.getRenderer());
     PlayerFactory player;
     player.createPlayer(registry, assetManager);
     registry.ctx().emplace<InputManager&>(inputManager);

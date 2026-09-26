@@ -1,12 +1,6 @@
 //
 // Created by truong on 22/09/2026.
 //
-
-#ifndef SDL3_GAME_ASSETMANAGER_H
-#define SDL3_GAME_ASSETMANAGER_H
-
-#endif //SDL3_GAME_ASSETMANAGER_H
-
 #pragma once
 #include <unordered_map>
 #include <string>
@@ -19,7 +13,7 @@ private:
 public:
     ~AssetManager();
 
-    SDL_Texture* loadTexture(const std::string& id, const std::string& path, SDL_Renderer* renderer);
+    SDL_Texture* loadTexture(const std::string& id, const std::string& path, SDL_Renderer& renderer);
     SDL_Texture* getTexture(const std::string& id);
 
     void Clear();

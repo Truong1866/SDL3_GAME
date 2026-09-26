@@ -13,7 +13,7 @@ AssetManager::~AssetManager() {
     Clear();
 }
 
-SDL_Texture* AssetManager::loadTexture(const std::string& id, const std::string& path, SDL_Renderer* renderer) {
+SDL_Texture* AssetManager::loadTexture(const std::string& id, const std::string& path, SDL_Renderer& renderer) {
     if (textures.contains(id)) {
         return textures[id];
     }
@@ -24,7 +24,7 @@ SDL_Texture* AssetManager::loadTexture(const std::string& id, const std::string&
         return nullptr;
     }
 
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(&renderer, surface);
     SDL_DestroySurface(surface);
     textures[id] = texture;
     return texture;

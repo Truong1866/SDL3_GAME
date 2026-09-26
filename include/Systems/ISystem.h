@@ -11,8 +11,8 @@ public:
     virtual ~ISystem()  = default;
 
     // Computer data of component.
-    virtual void update(entt::registry &registry, uint64_t deltaTime);
+    virtual void update(entt::registry &registry, uint64_t deltaTime){};
 
     // Use for render for user see.
-    virtual void render(entt::registry &registry, SDL_Renderer &render);
+    virtual void render(entt::registry &registry, SDL_Renderer &render){};
 };
