@@ -19,7 +19,7 @@ void Game::init() {
     systemManager.AddSystem<PhysicalSystem>();
     systemManager.AddSystem<RenderSystem>();
     systemManager.AddSystem<PlayerStateSystem>();
-    assetManager.loadTexture("Player", FileSystem::getPath("data/texture/idle.png"), &state.getRenderer());
+    assetManager.loadTexture("Player", FileSystem::getPath("data/texture/idle.png"), state.getRenderer());
     PlayerFactory player;
     player.createPlayer(registry, assetManager);
     registry.ctx().emplace<InputManager&>(inputManager);
