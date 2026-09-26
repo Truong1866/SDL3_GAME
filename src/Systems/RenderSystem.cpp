@@ -7,9 +7,9 @@
 #include "Components/Sprite.h"
 #include "Components/Transform.h"
 
-void RenderSystem::render(entt::registry& reg, SDL_Renderer *render) {
+void RenderSystem::render(entt::registry& reg, SDL_Renderer &render) {
     auto view = reg.view<Transform, Sprite, Rotate>();
-    for (auto entity : view) {
+    for (auto& entity : view) {
         auto& transform = view.get<Transform>(entity);
         auto& sprite = view.get<Sprite>(entity);
         auto& rotate = view.get<Rotate>(entity);
@@ -25,7 +25,7 @@ void RenderSystem::render(entt::registry& reg, SDL_Renderer *render) {
         }
 
         SDL_RenderTextureRotated(
-            render,
+            &render,
             sprite.texture,
             &sprite.rect,
             &dstRect,

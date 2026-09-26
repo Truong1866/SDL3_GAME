@@ -4,6 +4,7 @@
 #pragma once
 #include <SDL3/SDL_render.h>
 #include "Core/InputManager.h"
+#include <entt/entt.hpp>
 
 class ISystem {
 public:

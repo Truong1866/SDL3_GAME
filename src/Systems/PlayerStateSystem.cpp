@@ -5,12 +5,14 @@
 #include <entt/entt.hpp>
 #include "Components/Physical.h"
 #include "Components/State.h"
+#include "Components/Tag.h"
+#include "Core/InputManager.h"
 
-void update(entt::registry& registry,const uint64_t deltaTime ) {
+void PlayerStateSystem::update(entt::registry& registry,const uint64_t deltaTime ) {
     auto& input = registry.ctx().get<InputManager&>();
     auto view = registry.view<PlayerState, Physical>();
 
-    for (auto entity : view) {
+    for (auto& entity : view) {
         auto& state = registry.get<PlayerState>(entity);
         auto& physical = registry.get<Physical>(entity);
 

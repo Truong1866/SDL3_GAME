@@ -10,7 +10,7 @@
 
 
 void PhysicalSystem::update(entt::registry &registry, uint64_t deltaTime) {
-    auto& view = registry.view<PlayerTag, Physical, PlayerState, Transform>();
+    auto view = registry.view<PlayerTag, Physical, PlayerState, Transform>();
 
     for (auto& entity : view) {
         auto& physical = registry.get<Physical>(entity);
