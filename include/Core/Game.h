@@ -24,4 +24,5 @@ public:
     void input();
     void render();
     bool isRunning() const;
+    void cleanUp();
 };

@@ -8,6 +8,7 @@
 #include <SDL3/SDL.h>
 #include <iostream>
 #include <ranges>
+#include <SDL3_image/SDL_image.h>
 
 AssetManager::~AssetManager() {
     Clear();
@@ -18,7 +19,7 @@ SDL_Texture* AssetManager::loadTexture(const std::string& id, const std::string&
         return textures[id];
     }
 
-    SDL_Surface* surface = SDL_LoadBMP(path.c_str());
+    SDL_Surface* surface = IMG_Load(path.c_str());
     if (!surface) {
         std::cerr << "Could not load texture from " << path << std::endl;
         return nullptr;

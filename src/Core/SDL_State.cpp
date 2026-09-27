@@ -37,6 +37,7 @@ bool SDL_State::init() {
     }
 
     SDL_SetRenderLogicalPresentation(renderer, logW, logH, SDL_LOGICAL_PRESENTATION_LETTERBOX);
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     return true;
 }
 

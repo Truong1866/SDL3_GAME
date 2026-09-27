@@ -7,5 +7,5 @@
 
 class PlayerFactory {
 public:
-    entt::entity createPlayer(entt::registry &registry, AssetManager &assetManager);
+    static entt::entity createPlayer(entt::registry &registry, AssetManager &assetManager);
 };

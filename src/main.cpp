@@ -13,5 +13,6 @@ int main() {
         game.render();
         prevTime = nowTime;
     }
+    game.cleanUp();
     return 0;
 }

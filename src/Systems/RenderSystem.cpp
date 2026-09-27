@@ -3,6 +3,8 @@
 //
 
 #include "Systems/RenderSystem.h"
+
+#include <iostream>
 #include <entt/entt.hpp>
 #include "Components/Sprite.h"
 #include "Components/Transform.h"

@@ -3,6 +3,7 @@
 //
 #include <entt/entt.hpp>
 #include "Core/Game.h"
+#include <iostream>
 #include "Core/SystemManager.h"
 #include "Systems/AnimationSystem.h"
 #include "Systems/PhysicalSystem.h"
@@ -20,8 +21,7 @@ void Game::init() {
     systemManager.AddSystem<RenderSystem>();
     systemManager.AddSystem<PlayerStateSystem>();
     assetManager.loadTexture("Player", FileSystem::getPath("data/texture/idle.png"), state.getRenderer());
-    PlayerFactory player;
-    player.createPlayer(registry, assetManager);
+    PlayerFactory::createPlayer(registry, assetManager);
     registry.ctx().emplace<InputManager&>(inputManager);
     registry.ctx().emplace<AssetManager&>(assetManager);
 }
@@ -43,8 +43,29 @@ void Game::input() {
 
 void Game::render() {
     systemManager.render(registry, state.getRenderer());
+    SDL_RenderClear(&state.getRenderer());
+    SDL_RenderPresent(&state.getRenderer());
 }
 
 bool Game::isRunning() const{
     return running;
+}
+
+void Game::cleanUp() {
+    std::cout << "\n=== Cleaning up resources ===" << std::endl;
+
+    // 1. Clear all entities from registry
+    std::cout << "Clearing entities..." << std::endl;
+    registry.clear();
+
+    // 2. Destroy all GPU textures
+    std::cout << "Clearing textures..." << std::endl;
+    assetManager.Clear();
+
+    // 3. Cleanup SDL (window, renderer, etc.)
+    std::cout << "Cleaning up SDL..." << std::endl;
+    state.cleanup();
+
+    std::cout << "✓ All resources cleaned up" << std::endl;
+    std::cout << "============================\n" << std::endl;
 }
