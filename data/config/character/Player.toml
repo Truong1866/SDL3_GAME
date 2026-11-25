@@ -1,0 +1,33 @@
+[character]
+name = "Player"
+scale = [1.0, 1.0]
+
+[part.body]
+texture = "texture/player/body.png"
+source_size = [400, 400]
+position = [0,0]
+pivot = [200, 200]
+render_oder = 2
+column = 1
+row = 1
+duratian = 100
+
+[part.ears]
+texture = "texture/player/ears.png"
+source_size = [350, 200]
+position = [0, -300]
+pivot = [175, 170]
+render_oder = 1
+column = 5
+row = 1
+duratian = 200
+
+[part.tail]
+texture = "texture/player/tail.png"
+source_size = [340, 360]
+position = [35, -20]
+pivot = [340, 300]
+render_oder = 0
+column = 5
+row = 1
+duratian = 200

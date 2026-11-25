@@ -1,10 +1,9 @@
 //
 // Created by truong on 22/09/2026.
 //
-
-#include "Core/InputManager.h"
 #include <SDL3/SDL.h>
 #include <unordered_map>
+#include "Core/InputManager.hpp"
 
 void InputManager::update() {
     previousKeys = currentKeys;

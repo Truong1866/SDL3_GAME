@@ -1,46 +1,47 @@
 //
 // Created by truong on 22/09/2026.
 //
-#include "Systems/PhysicalSystem.h"
-#include "Components/Transform.h"
-#include "Components/Physical.h"
-#include <entt/entt.hpp>
-#include "Components/State.h"
-#include "Components/Tag.h"
+#include "Systems/PhysicalSystem.hpp"
+#include "Components/Physical.hpp"
+#include "Components/State.hpp"
+#include "Components/Tag.hpp"
+#include "Components/Transform.hpp"
 
 
-void PhysicalSystem::update(entt::registry &registry, uint64_t deltaTime) {
-    auto view = registry.view<PlayerTag, Physical, PlayerState, Transform>();
+void PhysicalSystem::update(entt::registry &registry, const uint64_t dt) {
+    auto view = registry.view<PlayerTag, Physical, PlayerState, LocalTransform>();
+
+    float deltaTime = dt / 1000.0f;
 
     for (auto& entity : view) {
         auto& physical = registry.get<Physical>(entity);
         auto& state = registry.get<PlayerState>(entity);
-        auto& transform = registry.get<Transform>(entity);
+        auto& transform = registry.get<LocalTransform>(entity);
 
         if (state.actionState == ActionState::Running) {
-            transform.x += physical.speed * deltaTime;
-            physical.speed += physical.acceleration * deltaTime;
-            if (physical.speed > physical.maxSpeed) {
-                physical.speed = physical.maxSpeed;
-            }else if (physical.speed < -physical.maxSpeed) {
-                physical.speed = -physical.maxSpeed;
+            transform.position.x += physical.velocity.x;
+            physical.velocity.x += physical.acceleration.x * deltaTime;
+            if (physical.velocity.x > physical.maxSpeed) {
+                physical.velocity.x = physical.maxSpeed;
+            }else if (physical.velocity.x < -physical.maxSpeed) {
+                physical.velocity.x = -physical.maxSpeed;
             }
         }
 
         if (state.airState == AirState::Jumping) {
-            transform.y += physical.jumpSpeed * deltaTime;
-            physical.jumpSpeed += physical.acceleration * deltaTime;
-            if (physical.jumpSpeed >= 0) {
+            transform.position.y += physical.velocity.y;
+            physical.velocity.y += physical.gravity * deltaTime;
+            if (physical.velocity.y >= 0) {
                 state.airState = AirState::Falling;
             }
         }
-        if (state.airState == AirState::Falling) {
-            transform.y += physical.jumpSpeed * deltaTime;
-            if (transform.y >= 288) {
-                transform.y = 288;
+        else if (state.airState == AirState::Falling) {
+            transform.position.y += physical.velocity.y;
+            if (transform.position.y + physical.velocity.y >= 900) {
+                transform.position.y = 0;
                 state.airState = AirState::Grounded;
                 physical.jumpSpeed = 0;
-            }else physical.jumpSpeed += physical.acceleration * deltaTime;
+            }else physical.jumpSpeed += physical.gravity * deltaTime;
         }
     }
 }

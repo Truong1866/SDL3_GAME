@@ -4,6 +4,7 @@
 
 #ifndef SDL3_GAME_SDL_STATE_H
 #define SDL3_GAME_SDL_STATE_H
+#include "entt/entity/registry.hpp"
 
 #endif //SDL3_GAME_SDL_STATE_H
 #pragma once
@@ -20,12 +21,11 @@ private: SDL_Window *window;
 
 public: SDL_State();
         ~SDL_State();
-        bool init();
+
+        bool init(entt::registry& registry);
         void cleanup();
-        void setResolution(int W, int H);
-        void setLogSize(int W, int H);
         SDL_Window* getWindow() const;
         SDL_Renderer &getRenderer() const;
-        resolution getResolution();
-        resolution getLogSize();
+        resolution getResolution() const;
+        resolution getLogSize() const;
 };

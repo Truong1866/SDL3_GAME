@@ -1,29 +1,48 @@
 //
 // Created by truong on 26/09/2026.
 //
-#include <entt/entt.hpp>
-#include "Core/Game.h"
 #include <iostream>
-#include "Core/SystemManager.h"
-#include "Systems/AnimationSystem.h"
-#include "Systems/PhysicalSystem.h"
-#include "Systems/PlayerStateSystem.h"
-#include "Systems/RenderSystem.h"
-#include "Core/PlayerFactory.h"
-#include "Core/FileSystem.h"
+#include "Core/Game.hpp"
+
+#include "Config/ConfigManager.hpp"
+#include "Core/SystemManager.hpp"
+#include "Systems/AnimationSystem.hpp"
+#include "Systems/PhysicalSystem.hpp"
+#include "Systems/PlayerStateSystem.hpp"
+#include "Systems/RenderSystem.hpp"
+#include "Core/PlayerFactory.hpp"
+#include "Core/FileSystem.hpp"
+#include "Systems/TransformSystem.hpp"
 
 void Game::init() {
-    state.setResolution(800, 600);
-    state.setLogSize(640, 320);
-    if (!state.init()) return;
+
+    Config::ConfigManager configManager;
+    configManager.load("data/config");
+
+    auto config = configManager.get();
+
+    inputManager = InputManager();
+    assetManager = AssetManager();
+
+    auto &ctx = registry.ctx();
+
+    ctx.emplace<AssetManager&>(assetManager);
+    ctx.emplace<InputManager&>(inputManager);
+    ctx.emplace<Config::AppConfig>(
+        config
+    );
+
+    if (!state.init(registry)) return;
+
     systemManager.AddSystem<AnimationSystem>();
     systemManager.AddSystem<PhysicalSystem>();
     systemManager.AddSystem<RenderSystem>();
     systemManager.AddSystem<PlayerStateSystem>();
-    assetManager.loadTexture("Player", FileSystem::getPath("data/texture/idle.png"), state.getRenderer());
-    PlayerFactory::createPlayer(registry, assetManager);
-    registry.ctx().emplace<InputManager&>(inputManager);
-    registry.ctx().emplace<AssetManager&>(assetManager);
+    systemManager.AddSystem<TransformSystem>();
+    assetManager.loadTexture("Player", FileSystem::getPath("data/texture/body.png"), state.getRenderer());
+    assetManager.loadTexture("tail", FileSystem::getPath("data/texture/tail.png"), state.getRenderer());
+    assetManager.loadTexture("head", FileSystem::getPath("data/texture/head.png"), state.getRenderer());
+    PlayerFactory::createPlayer(registry, assetManager,{50.0f, 60.0f});
 }
 
 void Game::update(const uint64_t deltaTime) {
@@ -42,8 +61,8 @@ void Game::input() {
 }
 
 void Game::render() {
-    systemManager.render(registry, state.getRenderer());
     SDL_RenderClear(&state.getRenderer());
+    systemManager.render(registry, state.getRenderer());
     SDL_RenderPresent(&state.getRenderer());
 }
 

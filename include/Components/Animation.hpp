@@ -6,7 +6,7 @@
 struct Animation {
     int currentFrame;
     int frameCount;
-    float currentTime;
-    float duration;
+    uint64_t currentTime;
+    uint64_t duration;
     bool isLoop;
 };

@@ -4,7 +4,7 @@
 #pragma once
 #include <SDL3/SDL_render.h>
 #include <entt/entt.hpp>
-#include "Systems/ISystem.h"
+#include "Systems/ISystem.hpp"
 
 class RenderSystem : public ISystem {
 public:

@@ -3,11 +3,10 @@
 //
 
 #pragma once
-#include <entt/entt.hpp>
-#include "Core/SDL_State.h"
-#include "Core/SystemManager.h"
-#include "Core/AssetManager.h"
-#include "Core/InputManager.h"
+#include "Core/SDL_State.hpp"
+#include "Core/SystemManager.hpp"
+#include "Core/AssetManager.hpp"
+#include "Core/InputManager.hpp"
 
 class Game {
 private:

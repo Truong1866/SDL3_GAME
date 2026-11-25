@@ -1,14 +1,13 @@
 //
 // Created by truong on 22/09/2026.
 //
-
-#include "Core/AssetManager.h"
 #include <unordered_map>
 #include <string>
 #include <SDL3/SDL.h>
 #include <iostream>
 #include <ranges>
 #include <SDL3_image/SDL_image.h>
+#include "Core/AssetManager.hpp"
 
 AssetManager::~AssetManager() {
     Clear();

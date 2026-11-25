@@ -7,7 +7,7 @@ struct Health{
     int maxHealth = 100;
 };
 
-struct Attack{
+struct Attack{a
     int attack = 10;
     float speedAttack = 0.1;
 };

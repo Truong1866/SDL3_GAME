@@ -4,7 +4,7 @@
 #pragma once
 #include <vector>
 #include <memory>
-#include "Systems/ISystem.h"
+#include "Systems/ISystem.hpp"
 
 class SystemManager {
 private:

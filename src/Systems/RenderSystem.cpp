@@ -1,38 +1,40 @@
 //
 // Created by truong on 22/09/2026.
 //
-
-#include "Systems/RenderSystem.h"
-
-#include <iostream>
 #include <entt/entt.hpp>
-#include "Components/Sprite.h"
-#include "Components/Transform.h"
+#include "Systems/RenderSystem.hpp"
+#include "Components/Sprite.hpp"
+#include "Components/Transform.hpp"
+#include "Core/Matrix.hpp"
 
 void RenderSystem::render(entt::registry& reg, SDL_Renderer &render) {
-    auto view = reg.view<Transform, Sprite, Rotate>();
+    auto view = reg.view<WorldTransform, Sprite>();
     for (auto& entity : view) {
-        auto& transform = view.get<Transform>(entity);
+        auto& world = view.get<WorldTransform>(entity);
         auto& sprite = view.get<Sprite>(entity);
-        auto& rotate = view.get<Rotate>(entity);
 
-        SDL_FRect dstRect= {
-            transform.x,
-            transform.y,
-            sprite.width,
-            sprite.height
+        auto transform = decomposeTransform(world.matrix);
+
+        SDL_FRect dstRect{
+            transform.position.x,
+            transform.position.y,
+            sprite.sourceRect.w * transform.scale.x,
+            sprite.sourceRect.h * transform.scale.y
         };
-        if (dstRect.x < 0 || dstRect.x > 800 || dstRect.y < 0 || dstRect.y > 600) {
-            continue;
-        }
+
+        SDL_FPoint center{
+            sprite.sourceRect.w * 0.5f,
+            sprite.sourceRect.h * 0.5f
+        };
 
         SDL_RenderTextureRotated(
             &render,
             sprite.texture,
-            &sprite.rect,
+            &sprite.sourceRect,
             &dstRect,
-            rotate.angle,
-            &rotate.position,
-            (transform.flip) ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
+            glm::degrees(transform.rotation),
+            &center,
+            SDL_FLIP_NONE
+        );
     }
 }

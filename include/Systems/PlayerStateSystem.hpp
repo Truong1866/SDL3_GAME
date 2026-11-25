@@ -3,7 +3,7 @@
 //
 #pragma once
 #include <entt/entt.hpp>
-#include "Systems/ISystem.h"
+#include "Systems/ISystem.hpp"
 
 class PlayerStateSystem : public ISystem {
 public:

@@ -3,7 +3,7 @@
 //
 #pragma once
 #include <SDL3/SDL_render.h>
-#include "Core/InputManager.h"
+#include "Core/InputManager.hpp"
 #include <entt/entt.hpp>
 
 class ISystem {

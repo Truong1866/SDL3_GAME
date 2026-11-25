@@ -1,10 +1,10 @@
 //
 // Created by truong on 22/09/2026.
 //
-#include <Systems/AnimationSystem.h>
 #include <entt/entt.hpp>
-#include <Components/Animation.h>
-#include <Components/Sprite.h>
+#include "Systems/AnimationSystem.hpp"
+#include "Components/Animation.hpp"
+#include "Components/Sprite.hpp"
 
 void AnimationSystem::update(entt::registry& reg,const uint64_t deltaTime) {
     auto view = reg.view<Animation, Sprite>();
@@ -16,12 +16,10 @@ void AnimationSystem::update(entt::registry& reg,const uint64_t deltaTime) {
 
         if (animation.currentTime >= animation.duration) {
             animation.currentTime -= animation.duration;
-            animation.currentFrame = (animation.currentFrame +1 ) % animation.frameCount;
+            animation.currentFrame = (animation.currentFrame++) % animation.frameCount;
         }
 
-        sprite.rect.x = static_cast<float>(animation.currentFrame) * sprite.width;
-        sprite.rect.y = sprite.height;
-        sprite.rect.w = sprite.width;
-        sprite.rect.h = sprite.height;
+        sprite.sourceRect.x =
+            static_cast<float>(animation.currentFrame) * sprite.sourceRect.w;
     }
 }

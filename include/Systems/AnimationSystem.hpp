@@ -4,7 +4,7 @@
 
 #pragma once
 #include <entt/entt.hpp>
-#include "Systems/ISystem.h"
+#include "Systems/ISystem.hpp"
 
 class AnimationSystem : public ISystem{
 public:

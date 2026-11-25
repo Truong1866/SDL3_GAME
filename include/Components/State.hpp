@@ -18,5 +18,5 @@ struct PlayerState {
     ActionState actionState = ActionState::Idle;
 
     bool isActionLocked = false;
-    float actionTimer = 0.0f;
+    uint64_t actionTimer = 0;
 };
